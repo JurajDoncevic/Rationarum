@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Rationarum_v3.ViewModels.FixedAssetViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Popis dugotrajne nefinancijske imovine</h2>
+
+<p>
+    @Html.ActionLink("Stvori novi", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JournalEntryNum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PurchaseValue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BookValue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lifetime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WriteDownRate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WriteDownValue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BookValueAtYearEnd)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JournalEntryNum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PurchaseValue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookValue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lifetime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WriteDownRate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WriteDownValue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookValueAtYearEnd)
+        </td>
+        <td>
+            @Html.ActionLink("Uredi", "Edit", new { id = item.Id }) |
+            @Ajax.ActionLink("Ukloni", "Delete", new { id = item.Id },
+            new AjaxOptions()
+            {
+                HttpMethod = "Delete",
+
+                Confirm = "Zelite li ukloniti ovu stavku?",
+                OnComplete = "function() { $(this).parent().parent().remove();}"
+
+            })
+        </td>
+    </tr>
+}
+
+</table>

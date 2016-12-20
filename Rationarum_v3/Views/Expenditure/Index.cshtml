@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Rationarum_v3.ViewModels.ExpenditureViewModel>
+
+@{
+    ViewBag.Title = "Izdaci";
+}
+
+<h2>Izdaci</h2>
+
+<p>
+    @Html.ActionLink("Stvori novi", "Create")
+</p>
+<p>
+    @using (Html.BeginForm())
+    {
+        <text>Filtriraj godinu: </text>@Html.DropDownList("year", new SelectList(ViewBag.DocumentedYears, ViewBag.SelectedValue))
+        <input type="submit" value="Filtriraj" />
+    }
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JournalEntryNum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AmountCash)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AmountTransferAccount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AmountNonCashBenefit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ValueAddedTax)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Article22)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Totaled)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JournalEntryNum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AmountCash)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AmountTransferAccount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AmountNonCashBenefit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ValueAddedTax)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Article22)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Totaled)
+        </td>
+        <td>
+            @Html.ActionLink("Uredi", "Edit", new { id=item.Id }) |
+            @Ajax.ActionLink("Ukloni", "Delete", new { id = item.Id },
+            new AjaxOptions()
+            {
+                HttpMethod = "Delete",
+
+                Confirm = "Zelite li ukloniti ovu stavku?",
+                OnComplete = "function() { $(this).parent().parent().remove();}"
+
+            })
+        </td>
+    </tr>
+}
+
+</table>

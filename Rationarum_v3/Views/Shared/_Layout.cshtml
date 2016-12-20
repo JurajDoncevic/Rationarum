@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/ico" href="~/Content/Images/rationarum_logo.ico">
+    <title>Rationarum_v3</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/bootstrap")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body style="font-family:Verdana">
+
+    <div class="navbar navbar-inverse navbar-fixed-side">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Rationarum", "Index", "Home", null, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (User.IsInRole("AssociationUser"))
+                    {
+                        //obicni korisnik
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" role="button" aria-expanded="false" href="#" data-toggle="dropdown">Knjige <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>@Html.ActionLink("Knjiga primitaka", "Index", "Receipt", null, new { id = "item 1" })</li>
+                                <li>@Html.ActionLink("Knjiga izdataka", "Index", "Expenditure", null, new { id = "item 2" })</li>
+                                <li>@Html.ActionLink("Knjiga ulaznih računa", "Index", "IngoingInvoice", null, new { id = "item 3" })</li>
+                                <li>@Html.ActionLink("Knjiga izlaznih računa", "Index", "OutgoingInvoice", null, new { id = "item 4" })</li>
+                                <li>@Html.ActionLink("Popis dugotrajne nefinancijske imovine", "Index", "FixedAsset", null, new { id = "item 5" })</li>
+                            </ul>
+                        </li>
+                        <li>@Html.ActionLink("Generiranje izvješća", "Index", "Report")</li>
+                    }
+                    else if (User.IsInRole("Admin"))
+                    {
+                        //admin
+                        @*<li class="dropdown">
+                            <a class="dropdown-toggle" role="button" aria-expanded="false" href="#" data-toggle="dropdown">Akcije <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>@Html.ActionLink("Upravljanje ulogama", "Index", "UserManagement", null, new { id = "item 1" })</li>
+                                <li>@Html.ActionLink("Stvaranje izlista", "", "", null, new { id = "item 2" })</li>
+                            </ul>
+                        </li>*@
+                        <li>@Html.ActionLink("Upravljanje ulogama", "Index", "UserManagement")</li>
+                    }
+                    else if (User.IsInRole("BlockedAssociationUser"))
+                    {
+                        //blokirani korisnik
+                        <li>@Html.ActionLink("Generiranje izvješća", "Index", "Report")</li>
+                    }
+                    else
+                    {
+                        //neregistrirani
+                    }
+                    <li>@Html.ActionLink("Početna", "Index", "Home")</li>
+                    <li>@Html.ActionLink("O nama", "About", "Home")</li>
+                    <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+
+
+    </div>
+    @if (User.IsInRole("BlockedAssociationUser"))
+    {
+        <div class="navbar-fixed-bottom" style="color:red; background-color:lightyellow">
+            Vaš korisnički račun je trenutno blokiran, te Vam je omogućeno samo stvaranje izlista. Molimo, kontaktirajte administratora. &copy; @DateTime.Now.Year - Rationarum_v3
+        </div>
+    }
+    else
+    {
+        <div class="navbar-fixed-bottom">&copy; @DateTime.Now.Year - Rationarum_v3</div>
+    }
+
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

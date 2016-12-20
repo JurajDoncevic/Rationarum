@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Rationarum_v3.Models.UserManagementViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+<h2>Korisnici:</h2>
+
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AssociationName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Adress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OIB)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Role)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssociationName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OIB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Uredi", "Edit", new { id = item.Id/* id=item.PrimaryKey */ }) |
+                @Ajax.ActionLink("Ukloni", "Delete", new { id = item.Id },
+                new AjaxOptions()
+                {
+                    HttpMethod = "Delete",
+
+                    Confirm = "Želite li ukloniti ovu stavku?",
+                    OnComplete = "function() { $(this).parent().parent().remove() }"
+                }) |
+                @Ajax.ActionLink("Resetiraj lozinku", "ResetPassword", new { id = item.Id }, 
+                new AjaxOptions()
+                {
+                    HttpMethod = "Post",
+                    Confirm = "Želite li korisniku resetirati lozinku?"
+                }) |
+                @Html.ActionLink("Izlist", "AdminFullReport", "Report", new { id = item.Id }, new { })
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+
+
+

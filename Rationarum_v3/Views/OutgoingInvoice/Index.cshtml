@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Rationarum_v3.ViewModels.OutgoingInvoiceViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    int count = 0;
+}
+
+<h2>Izlazni računi</h2>
+
+<p>
+    @Html.ActionLink("Stvori novi", "Create")
+</p>
+<p>
+    @using (Html.BeginForm())
+    {
+        <text>Filtriraj godinu: </text>@Html.DropDownList("year", new SelectList(ViewBag.DocumentedYears, ViewBag.SelectedValue))
+        <input type="submit" value="Filtriraj" />
+    }
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Redni broj
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InvoiceClassNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerInfo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @{ count++; }
+            @count
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InvoiceClassNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerInfo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.ActionLink("Uredi", "Edit", new { id=item.Id }) |
+            @Ajax.ActionLink("Ukloni", "Delete", new { id = item.Id },
+            new AjaxOptions()
+            {
+                HttpMethod = "Delete",
+
+                Confirm = "Zelite li ukloniti ovu stavku?",
+                OnComplete = "function() { $(this).parent().parent().remove();}"
+
+            })
+        </td>
+    </tr>
+}
+
+</table>
